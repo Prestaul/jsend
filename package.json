@@ -1,0 +1,20 @@
+{
+  "name": "jsend",
+  "version": "0.0.3",
+  "description": "Utilities to assist with sending and handling jsend responses.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/*.test.js"
+  },
+  "author": "Matt Dunlap <mpdunlap@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Prestaul/jsend.git"
+  },
+  "devDependencies": {
+    "jshint": "~2.1.11",
+    "mocha": "~1.13.0",
+    "chai": "~1.8.1"
+  }
+}
