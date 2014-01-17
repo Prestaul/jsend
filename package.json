@@ -1,6 +1,6 @@
 {
   "name": "jsend",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Utilities to assist with sending and handling jsend responses.",
   "main": "index.js",
   "scripts": {
