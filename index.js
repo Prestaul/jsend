@@ -87,51 +87,65 @@ function jsend(config, host) {
 		};
 	}
 
+	function success(data) {
+		if(data === undefined) throw new Error('"data" must be defined when calling jsend.success. (jsend)');
+		return {
+			status: 'success',
+			data: (data && data.status === 'success' && isValid(data))
+				? data.data
+				: data
+		};
+	}
+
+	function fail(data) {
+		if(data === undefined) throw new Error('"data" must be defined when calling jsend.fail. (jsend)');
+		return{
+			status: 'fail',
+			data: (data && data.status === 'fail' && isValid(data))
+				? data.data
+				: data
+		};
+	}
+
+	function error(message) {
+		var json = {
+			status: 'error'
+		};
+
+		if(typeof message === 'string') {
+			json.message = message;
+		} else if(message && message.message) {
+			json.message = message.message;
+			if(message.code !== undefined) json.code = message.code;
+			if(message.data !== undefined) json.data = message.data;
+		} else {
+			throw new Error('"message" must be defined when calling jsend.error. (jsend)');
+		}
+
+		return json;
+	}
 
 	host.isValid = isValid;
 	host.forward = forward;
 	host.fromArguments = fromArguments;
 	host.callback = callback;
 	host.responder = responder;
+	host.success = success;
+	host.fail = fail;
+	host.error = error;
 	host.middleware = function(req, res, next) {
 		var middleware = res.jsend = function(err, json) {
 			res.json(fromArguments(err, json));
 		};
 
 		middleware.success = function(data) {
-			if(data === undefined) throw new Error('"data" must be defined when calling jsend.success. (jsend)');
-			res.json({
-				status: 'success',
-				data: (data && data.status === 'success' && isValid(data))
-					? data.data
-					: data
-			});
+			res.json(success(data));
 		};
 		middleware.fail = function(data) {
-			if(data === undefined) throw new Error('"data" must be defined when calling jsend.fail. (jsend)');
-			res.json({
-				status: 'fail',
-				data: (data && data.status === 'fail' && isValid(data))
-					? data.data
-					: data
-			});
+			res.json(fail(data));
 		};
 		middleware.error = function(message) {
-			var json = {
-				status: 'error'
-			};
-
-			if(typeof message === 'string') {
-				json.message = message;
-			} else if(message && message.message) {
-				json.message = message.message;
-				if(message.code !== undefined) json.code = message.code;
-				if(message.data !== undefined) json.data = message.data;
-			} else {
-				throw new Error('"message" must be defined when calling jsend.error. (jsend)');
-			}
-
-			res.json(json);
+			res.json(error(message));
 		};
 
 		next();
