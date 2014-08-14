@@ -254,7 +254,126 @@ describe('jsend', function() {
 			})
 		});
 
+		describe('- success', function() {
 
+			it('with jsend object', function() {
+				var json = { status:'success', data:{ foo:'bar' } };
+
+				assert.deepEqual(json, jsendInstance.success(json));
+			});
+
+			it('with object data', function() {
+				var json = { status:'success', data:{ foo:'bar' } };
+
+				assert.deepEqual(json, jsendInstance.success(json.data));
+			});
+
+			it('with array data', function() {
+				var json = { status:'success', data:[1,2,3] };
+
+				assert.deepEqual(json, jsendInstance.success(json.data));
+			});
+
+			it('with string data', function() {
+				var json = { status:'success', data:'you got it' };
+
+				assert.deepEqual(json, jsendInstance.success(json.data));
+			});
+
+			it('with numeric data', function() {
+				var json = { status:'success', data:123 };
+
+				assert.deepEqual(json, jsendInstance.success(json.data));
+			});
+
+			it('with null data', function() {
+				var json = { status:'success', data:null };
+
+				assert.deepEqual(json, jsendInstance.success(json.data));
+			});
+
+			it('should throw error with no data', function() {
+				assert.throws(jsendInstance.success);
+			});
+		});
+
+		describe('- fail', function() {
+
+			it('with jsend object', function() {
+				var json = { status:'fail', data:{ foo:'bar' } };
+
+				assert.deepEqual(json, jsendInstance.fail(json));
+			});
+
+			it('with object data', function() {
+				var json = { status:'fail', data:{ foo:'bar' } };
+
+				assert.deepEqual(json, jsendInstance.fail(json.data));
+			});
+
+			it('with array data', function() {
+				var json = { status:'fail', data:[1,2,3] };
+
+				assert.deepEqual(json, jsendInstance.fail(json.data));
+			});
+
+			it('with string data', function() {
+				var json = { status:'fail', data:'you got it' }
+
+				assert.deepEqual(json, jsendInstance.fail(json.data));
+			});
+
+			it('with numeric data', function() {
+				var json = { status:'fail', data:123 }
+
+				assert.deepEqual(json, jsendInstance.fail(json.data));
+			});
+
+			it('with null data', function() {
+				var json = { status:'fail', data:null }
+
+				assert.deepEqual(json, jsendInstance.fail(json.data));
+			});
+
+			it('should throw error with no data', function() {
+				assert.throws(jsendInstance.fail);
+			});
+
+		});
+
+		describe('- error', function() {
+
+			it('with message', function() {
+				var json = { status:'error', message:'something bad' };
+
+				assert.deepEqual(json, jsendInstance.error(json.message));
+			});
+
+			it('with message and code', function() {
+				var json = { status:'error', message:'something bad', code:'BAD_THINGS' };
+
+				assert.deepEqual(json, jsendInstance.error(json));
+			});
+
+			it('with message and data', function() {
+				var json = { status:'error', message:'something bad', data:{ foo:'bar' } };
+
+				assert.deepEqual(json, jsendInstance.error(json));
+			});
+
+			it('with message and data and code', function() {
+				var json = { status:'error', message:'something bad', code:'BAD_THINGS', data:{ foo:'bar' } };
+
+				assert.deepEqual(json, jsendInstance.error(json));
+			});
+
+			it('should throw error with no message', function() {
+				var json = { status:'error', code:'BAD_THINGS', data:{ foo:'bar' } };
+
+				assert.throws(jsendInstance.error.bind(jsendInstance, json));
+			});
+
+		});
 
 		describe('- middleware', function() {
 			var req = {};
