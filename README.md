@@ -102,7 +102,7 @@ expressApp.use(jsend.middleware);
 
 expressApp.get('/', function(req, res) {
 	if(!req.params.someParam)
-		return res.fail({ validation:['someParam is required'] });
+		return res.jsend.fail({ validation:['someParam is required'] });
 
 	loadData(req.params.someParam, res.jsend);
 });
@@ -114,11 +114,11 @@ expressApp.use(jsend.middleware);
 
 expressApp.get('/', function(req, res) {
 	if(!req.params.someParam)
-		return res.fail({ validation:['someParam is required'] });
+		return res.jsend.fail({ validation:['someParam is required'] });
 
 	loadData(req.params.someParam, function(err, data) {
 		if(err) return res.error(err);
-		res.success(data);
+		res.jsend.success(data);
 	});
 });
 ```
