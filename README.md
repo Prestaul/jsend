@@ -35,7 +35,7 @@ jsend.isValid({
 
 Using the `strict` flag causes `jsend.isValid` to also validate that extraneous properties do not exist.
 ```js
-var jsend = require('jsend');
+var jsend = require('jsend')({ strict:true });
 
 // Returns true
 jsend.isValid({
