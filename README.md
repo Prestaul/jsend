@@ -3,12 +3,8 @@ jsend
 
 Utilities to assist with sending and handling jsend responses.
 
-@TODO: document `forward` and `fromArguments` methods
 
-@TODO: middleware
-
-
-Response validation
+Response Validation
 -------------------
 By default `jsend.isValid` validates that all required properties exist.
 ```js
@@ -57,33 +53,24 @@ jsend.isValid({
 ```
 
 
-Creating a jsend response
--------------------------
-```js
-getData(id, function(err, data) {
-	res.json(jsend.fromArguments(err, data));
-});
-```
-
-
-Forwarding jsend responses to node-style callbacks
---------------------------------------------------
+Response Forwarding
+-------------------
+You can forward a jsend response to a node style callback using the `forward` method.
 ```js
 jsend.forward(json, function(err, data) {
-
+	// err will be set if status was 'error' or 'fail'
+	// data will be the "data" property if status was 'success'
 });
 ```
 
 
-Http middleware
+Http Middleware
 ---------------
 ```js
 expressApp.use(jsend.middleware);
 
 expressApp.get('/', function(req, res) {
-	loadData(req.params.someParam, function(err, data) {
-		res.jsend(err, data);
-	});
+	loadData(req.params.someParam, res.jsend);
 });
 ```
 
@@ -92,7 +79,9 @@ same as:
 expressApp.use(jsend.middleware);
 
 expressApp.get('/', function(req, res) {
-	loadData(req.params.someParam, res.jsend);
+	loadData(req.params.someParam, function(err, data) {
+		res.jsend(err, data);
+	});
 });
 ```
 
@@ -117,8 +106,17 @@ expressApp.get('/', function(req, res) {
 		return res.jsend.fail({ validation:['someParam is required'] });
 
 	loadData(req.params.someParam, function(err, data) {
-		if(err) return res.error(err);
+		if(err) return res.jsend.error(err);
 		res.jsend.success(data);
 	});
+});
+```
+
+
+Creating a jsend response without middleware
+--------------------------------------------
+```js
+getData(id, function(err, data) {
+	res.json(jsend.fromArguments(err, data));
 });
 ```
