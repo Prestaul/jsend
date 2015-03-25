@@ -4,6 +4,13 @@ jsend
 Utilities to assist with sending and handling jsend responses.
 
 
+Installation
+------------
+```bash
+npm install -S jsend
+```
+
+
 Response Validation
 -------------------
 By default `jsend.isValid` validates that all required properties exist.
@@ -59,13 +66,29 @@ You can forward a jsend response to a node style callback using the `forward` me
 ```js
 jsend.forward(json, function(err, data) {
 	// err will be set if status was 'error' or 'fail'
-	// data will be the "data" property if status was 'success'
+	// data will be set to the "data" property in all cases
 });
 ```
 
 
 Http Middleware
 ---------------
+The jsend middleware has methods for easily sending "succeess", "fail" and "error" responses:
+```js
+expressApp.use(jsend.middleware);
+
+expressApp.get('/', function(req, res) {
+	if(!req.params.someParam)
+		return res.jsend.fail({ validation:['someParam is required'] });
+
+	loadData(req.params.someParam, function(err, data) {
+		if(err) return res.jsend.error(err);
+		res.jsend.success(data);
+	});
+});
+```
+
+Or you can use `res.jsend` as a callback to respond automatically with a jsend wrapped response:
 ```js
 expressApp.use(jsend.middleware);
 
@@ -81,33 +104,6 @@ expressApp.use(jsend.middleware);
 expressApp.get('/', function(req, res) {
 	loadData(req.params.someParam, function(err, data) {
 		res.jsend(err, data);
-	});
-});
-```
-
-same but adds param validation:
-```js
-expressApp.use(jsend.middleware);
-
-expressApp.get('/', function(req, res) {
-	if(!req.params.someParam)
-		return res.jsend.fail({ validation:['someParam is required'] });
-
-	loadData(req.params.someParam, res.jsend);
-});
-```
-
-same:
-```js
-expressApp.use(jsend.middleware);
-
-expressApp.get('/', function(req, res) {
-	if(!req.params.someParam)
-		return res.jsend.fail({ validation:['someParam is required'] });
-
-	loadData(req.params.someParam, function(err, data) {
-		if(err) return res.jsend.error(err);
-		res.jsend.success(data);
 	});
 });
 ```
