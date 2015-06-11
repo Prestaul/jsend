@@ -1,6 +1,6 @@
 {
   "name": "jsend",
-  "version": "0.1.3",
+  "version": "1.0.0",
   "description": "Utilities and middleware to assist with sending and handling jsend responses.",
   "keywords": [
     "jsend",
