@@ -190,14 +190,14 @@ describe('jsend', function() {
 			function assertCall(expectedErr, expectedData) {
 				return function(err, data) {
 					if(expectedErr) {
-						assert.isObject(err);
+						assert.typeOf(err, 'error');
 						assert.isString(err.message);
 						if(expectedErr.message) assert.equal(err.message, expectedErr.message);
 						if(expectedErr.code) assert.equal(err.code, expectedErr.code);
 					}
 
 					if(expectedData !== undefined) {
-						assert.deepEqual(data, expectedData)
+						assert.deepEqual(data, expectedData);
 					}
 				};
 			}
@@ -205,53 +205,53 @@ describe('jsend', function() {
 			describe('for "success"', function() {
 				it('should pass object data', function() {
 					var json = { status:'success', data:{ foo:'bar' } };
-					jsendInstance.forward(json, assertCall(null, json.data))
+					jsendInstance.forward(json, assertCall(null, json.data));
 				});
 
 				it('should pass array data', function() {
 					var json = { status:'success', data:[1,2,3] };
-					jsendInstance.forward(json, assertCall(null, json.data))
+					jsendInstance.forward(json, assertCall(null, json.data));
 				});
 
 				it('should pass string data', function() {
 					var json = { status:'success', data:'you got it' };
-					jsendInstance.forward(json, assertCall(null, json.data))
+					jsendInstance.forward(json, assertCall(null, json.data));
 				});
 
 				it('should pass numeric data', function() {
 					var json = { status:'success', data:123 };
-					jsendInstance.forward(json, assertCall(null, json.data))
+					jsendInstance.forward(json, assertCall(null, json.data));
 				});
 
 				it('should pass null data', function() {
 					var json = { status:'success', data:null };
-					jsendInstance.forward(json, assertCall(null, json.data))
+					jsendInstance.forward(json, assertCall(null, json.data));
 				});
 			});
 
 			describe('for "fail"', function() {
 				it('should pass an error and data', function() {
 					var json = { status:'fail', data:{ validation:false } };
-					jsendInstance.forward(json, assertCall(true, json.data))
+					jsendInstance.forward(json, assertCall(true, json.data));
 				});
 			});
 
 			describe('for "error"', function() {
 				it('should pass an error', function() {
 					var json = { status:'error', message:'something bad' };
-					jsendInstance.forward(json, assertCall(json))
+					jsendInstance.forward(json, assertCall(json));
 				});
 
 				it('with code should pass an error with code', function() {
 					var json = { status:'error', message:'something bad', code:123 };
-					jsendInstance.forward(json, assertCall(json))
+					jsendInstance.forward(json, assertCall(json));
 				});
 
 				it('with data should pass the data', function() {
 					var json = { status:'error', message:'something bad', code:123, data:{ foo:'bar' } };
-					jsendInstance.forward(json, assertCall(json, json.data))
+					jsendInstance.forward(json, assertCall(json, json.data));
 				});
-			})
+			});
 		});
 
 		describe('- success', function() {
@@ -318,19 +318,19 @@ describe('jsend', function() {
 			});
 
 			it('with string data', function() {
-				var json = { status:'fail', data:'you got it' }
+				var json = { status:'fail', data:'you got it' };
 
 				assert.deepEqual(json, jsendInstance.fail(json.data));
 			});
 
 			it('with numeric data', function() {
-				var json = { status:'fail', data:123 }
+				var json = { status:'fail', data:123 };
 
 				assert.deepEqual(json, jsendInstance.fail(json.data));
 			});
 
 			it('with null data', function() {
-				var json = { status:'fail', data:null }
+				var json = { status:'fail', data:null };
 
 				assert.deepEqual(json, jsendInstance.fail(json.data));
 			});
@@ -387,7 +387,7 @@ describe('jsend', function() {
 					var json = { status:'error', message:'something bad' },
 						res = {
 							json: function(output) {
-								assert.deepEqual(output, { status:'error', message:'something bad' })
+								assert.deepEqual(output, { status:'error', message:'something bad' });
 								done();
 							}
 						};
@@ -403,7 +403,7 @@ describe('jsend', function() {
 								assert.isObject(output.data);
 								assert.isString(output.data.stack);
 								delete output.data;
-								assert.deepEqual(output, json)
+								assert.deepEqual(output, json);
 								done();
 							}
 						};

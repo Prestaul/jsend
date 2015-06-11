@@ -1,0 +1,13 @@
+{
+	"node": true,
+	"undef": true,
+	"eqeqeq": true,
+	"eqnull": false,
+	"newcap": true,
+	"laxbreak": true,
+
+	"predef": [
+		"describe",
+		"it"
+	]
+}
