@@ -75,18 +75,6 @@ function jsend(config, host) {
 		return json;
 	}
 
-	function callback(done) {
-		return function(json) {
-			forward(json, done);
-		};
-	}
-
-	function responder(done) {
-		return function(err, json) {
-			done(fromArguments(err, json));
-		};
-	}
-
 	function success(data) {
 		if(data === undefined) throw new Error('"data" must be defined when calling jsend.success. (jsend)');
 		return {
@@ -128,11 +116,10 @@ function jsend(config, host) {
 	host.isValid = isValid;
 	host.forward = forward;
 	host.fromArguments = fromArguments;
-	host.callback = callback;
-	host.responder = responder;
 	host.success = success;
 	host.fail = fail;
 	host.error = error;
+
 	host.middleware = function(req, res, next) {
 		var middleware = res.jsend = function(err, json) {
 			res.json(fromArguments(err, json));
