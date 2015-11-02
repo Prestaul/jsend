@@ -252,6 +252,22 @@ describe('jsend', function() {
 					jsendInstance.forward(json, assertCall(json, json.data));
 				});
 			});
+
+			describe('for invalid jsend responses', function() {
+				it('passes string responses back as the error message', function() {
+					var html = '<html><body>414 Request-URI Too Large</body></html>';
+					jsendInstance.forward(html, function(err, data) {
+						assert.equal(err.data.originalObject, html);
+					});
+				});
+
+				it('passes object responses back as the error message', function() {
+					var html = {"invalid-jsend": true};
+					jsendInstance.forward(html, function(err, data) {
+						assert.equal(err.data.originalObject["invalid-jsend"], html["invalid-jsend"]);
+					});
+				});
+			});
 		});
 
 		describe('- success', function() {

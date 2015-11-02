@@ -42,6 +42,7 @@ function jsend(config, host) {
 		else {
 			var err = new Error(json.message || ('Jsend response status: ' + json.status));
 			if('code' in json) err.code = json.code;
+			if('data' in json) err.data = json.data;
 			done(err, json.data);
 		}
 	}
