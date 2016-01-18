@@ -28,6 +28,18 @@ function jsend(config, host) {
 
 		return valid;
 	}
+	
+	function isSuccess(json){
+		return isValid(json) && json.status === 'success';
+	}
+	
+	function isFail(json){
+		return isValid(json) && json.status === 'fail';
+	}
+	
+	function isError(json){
+		return isValid(json) && json.status === 'error';
+	}
 
 	function forward(json, done) {
 		if(!isValid(json))
@@ -115,6 +127,9 @@ function jsend(config, host) {
 	}
 
 	host.isValid = isValid;
+	host.isSuccess = isSuccess;
+	host.isFail = isFail;
+	host.isError = isError;
 	host.forward = forward;
 	host.fromArguments = fromArguments;
 	host.success = success;
