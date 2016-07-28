@@ -34,7 +34,7 @@ jsend.error({
 }); // { status: 'error', code: 123, message: 'No soup for you!' }
 jsend.error({
 	code: 123,
-    message: 'No soup for you!'
+    message: 'No soup for you!',
     data: false
 }); // { status: 'error', code: 123, message: 'No soup for you!', data: false }
 ```
