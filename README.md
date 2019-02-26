@@ -1,6 +1,6 @@
 # jsend
 
-Utilities and middleware to assist with sending and handling [jsend](http://labs.omniti.com/labs/jsend) responses.
+Utilities and middleware to assist with sending and handling [jsend](https://github.com/omniti-labs/jsend) responses.
 
 
 ### Installation
