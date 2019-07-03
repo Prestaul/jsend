@@ -383,6 +383,12 @@ describe('jsend', function() {
 				assert.deepEqual(json, jsendInstance.error(json));
 			});
 
+			it('with message as first argument, and data and code as second', function () {
+				var json = { status:'error', message:'something bad', code:'BAD_THINGS', data:{ foo:'bar' } };
+
+				assert.deepEqual(json, jsendInstance.error(json.message, {code: json.code, data: json.data}));
+			});
+
 			it('should throw error with no message', function() {
 				var json = { status:'error', code:'BAD_THINGS', data:{ foo:'bar' } };
 

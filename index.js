@@ -96,13 +96,17 @@ function jsend(config, host) {
 		};
 	}
 
-	function error(message) {
+	function error(message, rest) {
 		var json = {
 			status: 'error'
 		};
 
 		if(typeof message === 'string') {
 			json.message = message;
+			if(rest !== undefined) {
+				if(rest.code !== undefined) json.code = rest.code;
+				if(rest.data !== undefined) json.data = rest.data;
+			}
 		} else if(message && message.message) {
 			json.message = message.message;
 			if(message.code !== undefined) json.code = message.code;
