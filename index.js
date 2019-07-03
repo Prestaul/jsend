@@ -103,7 +103,7 @@ function jsend(config, host) {
 
 		if(typeof message === 'string') {
 			json.message = message;
-			if(rest !== undefined) {
+			if(rest) {
 				if(rest.code !== undefined) json.code = rest.code;
 				if(rest.data !== undefined) json.data = rest.data;
 			}
