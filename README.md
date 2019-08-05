@@ -1,6 +1,7 @@
 # jsend
 
 Utilities and middleware to assist with sending and handling [jsend](https://github.com/omniti-labs/jsend) responses.
+Edited original [Prestaul/jsend](https://github.com/Prestaul/jsend) (added HTTP status codes)
 
 
 ### Installation
